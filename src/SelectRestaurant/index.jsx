@@ -24,7 +24,7 @@ class SelectRestaurant extends Component {
     const { restaurant } = this.state;
     const { meal, handleUpdateRestaurant } = this.props;
     if (showValidRestaurants(meal).includes(restaurant)) {
-      handleUpdateRestaurant({ restaurant });
+      handleUpdateRestaurant(restaurant);
     } else {
       this.setState({ showError: true });
     }

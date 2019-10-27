@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SelectMeal from "./SelectMeal/index";
 import SelectRestaurant from "./SelectRestaurant/index";
+import SelectDish from "./SelectDish/index";
 import "./App.css";
 
 class App extends Component {
@@ -10,7 +11,7 @@ class App extends Component {
       page: 1,
       meal: "---",
       people: "1",
-      restaurant: undefined
+      restaurant: "---"
     };
 
     this.handleUpdateMealAndPeople = this.handleUpdateMealAndPeople.bind(this);
@@ -43,7 +44,7 @@ class App extends Component {
   }
 
   render() {
-    const { page, meal, people } = this.state;
+    const { page, meal, people, restaurant } = this.state;
     return (
       <div className="App">
         <header className="App-header">Multi Step Form</header>
@@ -62,6 +63,7 @@ class App extends Component {
               handleGoToPrevious={this.handleGoToPrevious}
             />
           )}
+          {page === 3 && <SelectDish restaurant={restaurant} />}
         </div>
       </div>
     );

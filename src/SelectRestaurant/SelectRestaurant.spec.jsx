@@ -56,9 +56,7 @@ describe("submitting data", () => {
   it("should submit restaurant", () => {
     wrapper.setState({ restaurant: "Breakfast Place 1" });
     wrapper.find(".nextButton").simulate("click");
-    expect(handleUpdateRestaurant).toHaveBeenCalledWith({
-      restaurant: "Breakfast Place 1"
-    });
+    expect(handleUpdateRestaurant).toHaveBeenCalledWith("Breakfast Place 1");
     handleUpdateRestaurant.mockClear();
   });
   it("should show error if restaurant not selected", () => {
