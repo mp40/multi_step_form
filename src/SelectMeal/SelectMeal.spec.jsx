@@ -6,7 +6,9 @@ const selectValue = wrapper => (className, value) =>
   wrapper.find(className).simulate("change", { target: { value } });
 
 describe("selecting a meal", () => {
-  const wrapper = shallow(<SelectMeal handleUpdateMealAndPeople={jest.fn()} />);
+  const wrapper = shallow(
+    <SelectMeal meal="---" people="1" handleUpdateMealAndPeople={jest.fn()} />
+  );
   describe("meal options", () => {
     it("should have a default of three dashes ", () => {
       const defaultText = wrapper
@@ -54,9 +56,11 @@ describe("selecting a meal", () => {
 });
 
 describe("selecting number of people", () => {
-  const wrapper = shallow(<SelectMeal handleUpdateMealAndPeople={jest.fn()} />);
+  const wrapper = shallow(
+    <SelectMeal meal="---" people="1" handleUpdateMealAndPeople={jest.fn()} />
+  );
   it("should start with a default of one", () => {
-    expect(wrapper.find("input").props().value).toBe(1);
+    expect(wrapper.find("input").props().value).toBe("1");
   });
   it("should have a minimum value of one", () => {
     expect(wrapper.find("input").props().min).toBe("1");
@@ -69,14 +73,18 @@ describe("selecting number of people", () => {
 describe("submitting data", () => {
   const handleUpdateMealAndPeople = jest.fn();
   const wrapper = shallow(
-    <SelectMeal handleUpdateMealAndPeople={handleUpdateMealAndPeople} />
+    <SelectMeal
+      meal="---"
+      people="1"
+      handleUpdateMealAndPeople={handleUpdateMealAndPeople}
+    />
   );
   it("should submit meal and people", () => {
-    wrapper.setState({ meal: "Breakfast", people: 2 });
+    wrapper.setState({ meal: "Breakfast", people: "2" });
     wrapper.find(".nextButton").simulate("click");
     expect(handleUpdateMealAndPeople).toHaveBeenCalledWith({
       meal: "Breakfast",
-      people: 2
+      people: "2"
     });
     handleUpdateMealAndPeople.mockClear();
   });
@@ -85,5 +93,23 @@ describe("submitting data", () => {
     wrapper.find(".nextButton").simulate("click");
     expect(handleUpdateMealAndPeople).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Please select valid meal");
+  });
+});
+
+describe("setting state on mounting", () => {
+  it("should update meal and people when component mounts", () => {
+    const setStateSpy = jest.spyOn(SelectMeal.prototype, "setState");
+    const wrapper = shallow(
+      <SelectMeal
+        meal="Breakfast"
+        people="10"
+        handleUpdateMealAndPeople={jest.fn()}
+      />
+    );
+    expect(setStateSpy).toHaveBeenCalledWith({
+      meal: "Breakfast",
+      people: "10"
+    });
+    setStateSpy.mockClear();
   });
 });

@@ -1,37 +1,65 @@
 import React, { Component } from "react";
 import SelectMeal from "./SelectMeal/index";
+import SelectRestaurant from "./SelectRestaurant/index";
 import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "one",
-      meal: undefined,
-      people: undefined
+      page: 1,
+      meal: "---",
+      people: "1",
+      restaurant: undefined
     };
 
     this.handleUpdateMealAndPeople = this.handleUpdateMealAndPeople.bind(this);
+    this.handleUpdateRestaurant = this.handleUpdateRestaurant.bind(this);
+    this.handleGoToPrevious = this.handleGoToPrevious.bind(this);
   }
 
   handleUpdateMealAndPeople(data) {
+    const { page } = this.state;
     this.setState({
-      page: "two",
+      page: page + 1,
       meal: data.meal,
       people: data.people
     });
   }
 
-  render() {
+  handleUpdateRestaurant(restaurant) {
     const { page } = this.state;
+    this.setState({
+      page: page + 1,
+      restaurant
+    });
+  }
 
+  handleGoToPrevious() {
+    const { page } = this.state;
+    this.setState({
+      page: page - 1
+    });
+  }
+
+  render() {
+    const { page, meal, people } = this.state;
     return (
       <div className="App">
         <header className="App-header">Multi Step Form</header>
         <div className="App-body">
-          {page === "one" && (
+          {page === 1 && (
             <SelectMeal
+              meal={meal}
+              people={people}
               handleUpdateMealAndPeople={this.handleUpdateMealAndPeople}
+            />
+          )}
+          {page === 2 && (
+            <SelectRestaurant
+              meal={meal}
+              handleUpdateRestaurant={this.handleUpdateRestaurant}
+              handleGoToPrevious={this.handleGoToPrevious}
             />
           )}
         </div>

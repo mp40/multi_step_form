@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-onchange */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import dataIsValid from "./data";
+import { validMeals, dataIsValid } from "./data";
 
 class SelectMeal extends Component {
   constructor(props) {
@@ -16,6 +16,11 @@ class SelectMeal extends Component {
     this.handleMealChange = this.handleMealChange.bind(this);
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.submitData = this.submitData.bind(this);
+  }
+
+  componentDidMount() {
+    const { meal, people } = this.props;
+    this.setState({ meal, people });
   }
 
   handleMealChange(event) {
@@ -50,10 +55,9 @@ class SelectMeal extends Component {
               value={meal}
               onChange={this.handleMealChange}
             >
-              <option>---</option>
-              <option>Breakfast</option>
-              <option>Lunch</option>
-              <option>Dinner</option>
+              {["---", ...validMeals].map(mealType => {
+                return <option key={mealType}>{mealType}</option>;
+              })}
             </select>
           </label>
           {showError && <p>Please select valid meal</p>}
@@ -73,7 +77,7 @@ class SelectMeal extends Component {
           <button
             className="nextButton"
             type="submit"
-            onClick={this.submitData}
+            onClick={() => this.submitData()}
           >
             Next
           </button>
@@ -84,6 +88,8 @@ class SelectMeal extends Component {
 }
 
 SelectMeal.propTypes = {
+  meal: PropTypes.string.isRequired,
+  people: PropTypes.string.isRequired,
   handleUpdateMealAndPeople: PropTypes.func.isRequired
 };
 

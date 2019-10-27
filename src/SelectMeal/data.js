@@ -1,7 +1,5 @@
-const validMeals = ["Breakfast", "Lunch", "Dinner"];
+export const validMeals = ["Breakfast", "Lunch", "Dinner"];
 
-const dataIsValid = meal => {
+export const dataIsValid = meal => {
   return validMeals.includes(meal);
 };
-
-export default dataIsValid;
