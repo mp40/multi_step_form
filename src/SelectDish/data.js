@@ -22,10 +22,8 @@ const dishes = {
   DinnerPlace3: ["Dinner Dish 3a", "Dinner Dish 3b", "Dinner Dish 3c"]
 };
 
-const showValidDishes = (restaurant, selectedDishes) => {
-  return dishes[restaurant.replace(/\s+/g, "")].filter(dish => {
-    return !selectedDishes.includes(dish);
-  });
+const showValidDishes = restaurant => {
+  return dishes[restaurant.replace(/\s+/g, "")];
 };
 
 export default showValidDishes;
