@@ -8,43 +8,24 @@ class SelectMeal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      meal: "---",
-      people: 1,
       showError: false
     };
 
-    this.handleMealChange = this.handleMealChange.bind(this);
-    this.handlePeopleChange = this.handlePeopleChange.bind(this);
-    this.submitData = this.submitData.bind(this);
+    this.handleNextIsValid = this.handleNextIsValid.bind(this);
   }
 
-  componentDidMount() {
-    const { meal, people } = this.props;
-    this.setState({ meal, people });
-  }
-
-  handleMealChange(event) {
-    const meal = event.target.value;
-    this.setState({ meal });
-  }
-
-  handlePeopleChange(event) {
-    const people = event.target.value;
-    this.setState({ people });
-  }
-
-  submitData() {
-    const { meal, people } = this.state;
-    const { handleUpdateMealAndPeople } = this.props;
+  handleNextIsValid() {
+    const { meal, handleGoToNext } = this.props;
     if (dataIsValid(meal)) {
-      handleUpdateMealAndPeople({ meal, people });
+      handleGoToNext();
     } else {
       this.setState({ showError: true });
     }
   }
 
   render() {
-    const { meal, people, showError } = this.state;
+    const { showError } = this.state;
+    const { meal, people, handleUpdateStateValue } = this.props;
     return (
       <div>
         <form>
@@ -53,14 +34,15 @@ class SelectMeal extends Component {
             <select
               className="selectMeal"
               value={meal}
-              onChange={this.handleMealChange}
+              onChange={event =>
+                handleUpdateStateValue("meal", event.target.value)
+              }
             >
               {["---", ...validMeals].map(mealType => {
                 return <option key={mealType}>{mealType}</option>;
               })}
             </select>
           </label>
-          {showError && <p>Please select valid meal</p>}
         </form>
         <div>
           Please select number of people
@@ -70,18 +52,21 @@ class SelectMeal extends Component {
             min="1"
             max="10"
             value={people}
-            onChange={this.handlePeopleChange}
+            onChange={event =>
+              handleUpdateStateValue("people", event.target.value)
+            }
           />
         </div>
         <div>
           <button
             className="nextButton"
             type="submit"
-            onClick={() => this.submitData()}
+            onClick={() => this.handleNextIsValid()}
           >
             Next
           </button>
         </div>
+        {showError && <p>Please select valid meal</p>}
       </div>
     );
   }
@@ -90,7 +75,8 @@ class SelectMeal extends Component {
 SelectMeal.propTypes = {
   meal: PropTypes.string.isRequired,
   people: PropTypes.string.isRequired,
-  handleUpdateMealAndPeople: PropTypes.func.isRequired
+  handleUpdateStateValue: PropTypes.func.isRequired,
+  handleGoToNext: PropTypes.func.isRequired
 };
 
 export default SelectMeal;

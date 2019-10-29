@@ -8,53 +8,80 @@ const createKey = (dish, index) => {
   return `${dish}${index}`;
 };
 
+const getTotalServings = servings => {
+  return servings.reduce((acc, amount) => {
+    return acc + amount;
+  }, 0);
+};
+
 class SelectDish extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dish: ["---"],
-      servings: [1],
-      showDishError: false
+      showDishError: false,
+      showServingsError: false
     };
 
     this.handleDishSelect = this.handleDishSelect.bind(this);
     this.handleAddDish = this.handleAddDish.bind(this);
     this.handleServingChange = this.handleServingChange.bind(this);
+    this.handleNextIsValid = this.handleNextIsValid.bind(this);
   }
 
   handleDishSelect(event, index) {
-    const { dish } = this.state;
+    const { dish, handleUpdateStateValue } = this.props;
+
     if (dish.includes(event.target.value)) {
       this.setState({ showDishError: "Error: Please select different dish" });
     } else {
       const updatedDish = dish.map((dishName, dex) => {
         return index === dex ? event.target.value : dishName;
       });
-      this.setState({ dish: updatedDish, showDishError: false });
+      handleUpdateStateValue("dish", updatedDish);
     }
   }
 
   handleAddDish() {
-    const { dish } = this.state;
+    const { dish, handleUpdateStateValue } = this.props;
     if (dish.includes("---")) {
       this.setState({ showDishError: "Error: Please select a dish" });
     } else {
-      this.setState({ dish: [...dish, "---"] });
+      handleUpdateStateValue("dish", [...dish, "---"]);
     }
   }
 
   handleServingChange(event, index) {
-    const { servings } = this.state;
+    const { servings, handleUpdateStateValue } = this.props;
     const serving = event.target.value;
     const updatedServing = servings.map((serves, dex) => {
       return index === dex ? serving : serves;
     });
-    this.setState({ servings: updatedServing });
+    handleUpdateStateValue("servings", updatedServing);
+  }
+
+  handleNextIsValid() {
+    const { people, dish, servings, handleGoToNext } = this.props;
+    if (dish.includes("---")) {
+      this.setState({ showDishError: "Error: Please select a dish" });
+    } else if (
+      getTotalServings(servings) > 10 ||
+      getTotalServings(servings) < people
+    ) {
+      this.setState({ showServingsError: true });
+    } else {
+      handleGoToNext();
+    }
   }
 
   render() {
-    const { dish, servings, showDishError } = this.state;
-    const { restaurant } = this.props;
+    const { showDishError, showServingsError } = this.state;
+    const {
+      restaurant,
+      people,
+      dish,
+      servings,
+      handleGoToPrevious
+    } = this.props;
     return (
       <div>
         <form>
@@ -99,13 +126,41 @@ class SelectDish extends Component {
           </button>
         </div>
         {showDishError && <p>{showDishError}</p>}
+        {showServingsError && getTotalServings(servings) > 10 && (
+          <p>Too many servings, maximum is ten</p>
+        )}
+        {showServingsError && getTotalServings(servings) < people && (
+          <p>Not enough servings, minimum is one per person</p>
+        )}
+        <div>
+          <button
+            className="prevButton"
+            type="submit"
+            onClick={() => handleGoToPrevious()}
+          >
+            Prev
+          </button>
+          <button
+            className="nextButton"
+            type="submit"
+            onClick={() => this.handleNextIsValid()}
+          >
+            Next
+          </button>
+        </div>
       </div>
     );
   }
 }
 
 SelectDish.propTypes = {
-  restaurant: PropTypes.string.isRequired
+  restaurant: PropTypes.string.isRequired,
+  people: PropTypes.string.isRequired,
+  dish: PropTypes.arrayOf(PropTypes.string).isRequired,
+  servings: PropTypes.arrayOf(PropTypes.number).isRequired,
+  handleUpdateStateValue: PropTypes.func.isRequired,
+  handleGoToNext: PropTypes.func.isRequired,
+  handleGoToPrevious: PropTypes.func.isRequired
 };
 
 export default SelectDish;

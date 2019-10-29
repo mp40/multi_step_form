@@ -11,28 +11,24 @@ class App extends Component {
       page: 1,
       meal: "---",
       people: "1",
-      restaurant: "---"
+      restaurant: "---",
+      dish: ["---"],
+      servings: [1]
     };
 
-    this.handleUpdateMealAndPeople = this.handleUpdateMealAndPeople.bind(this);
-    this.handleUpdateRestaurant = this.handleUpdateRestaurant.bind(this);
+    this.handleUpdateStateValue = this.handleUpdateStateValue.bind(this);
+    this.handleGoToNext = this.handleGoToNext.bind(this);
     this.handleGoToPrevious = this.handleGoToPrevious.bind(this);
   }
 
-  handleUpdateMealAndPeople(data) {
-    const { page } = this.state;
-    this.setState({
-      page: page + 1,
-      meal: data.meal,
-      people: data.people
-    });
+  handleUpdateStateValue(name, value) {
+    this.setState({ [name]: value });
   }
 
-  handleUpdateRestaurant(restaurant) {
+  handleGoToNext() {
     const { page } = this.state;
     this.setState({
-      page: page + 1,
-      restaurant
+      page: page + 1
     });
   }
 
@@ -44,7 +40,7 @@ class App extends Component {
   }
 
   render() {
-    const { page, meal, people, restaurant } = this.state;
+    const { page, meal, people, restaurant, dish, servings } = this.state;
     return (
       <div className="App">
         <header className="App-header">Multi Step Form</header>
@@ -53,17 +49,30 @@ class App extends Component {
             <SelectMeal
               meal={meal}
               people={people}
-              handleUpdateMealAndPeople={this.handleUpdateMealAndPeople}
+              handleUpdateStateValue={this.handleUpdateStateValue}
+              handleGoToNext={this.handleGoToNext}
             />
           )}
           {page === 2 && (
             <SelectRestaurant
               meal={meal}
-              handleUpdateRestaurant={this.handleUpdateRestaurant}
+              restaurant={restaurant}
+              handleUpdateStateValue={this.handleUpdateStateValue}
+              handleGoToNext={this.handleGoToNext}
               handleGoToPrevious={this.handleGoToPrevious}
             />
           )}
-          {page === 3 && <SelectDish restaurant={restaurant} />}
+          {page === 3 && (
+            <SelectDish
+              restaurant={restaurant}
+              people={people}
+              dish={dish}
+              servings={servings}
+              handleUpdateStateValue={this.handleUpdateStateValue}
+              handleGoToNext={this.handleGoToNext}
+              handleGoToPrevious={this.handleGoToPrevious}
+            />
+          )}
         </div>
       </div>
     );

@@ -8,31 +8,29 @@ class SelectRestaurant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurant: "---",
       showError: false
     };
 
-    this.handleRestaurantChange = this.handleRestaurantChange.bind(this);
+    this.handleNextIsValid = this.handleNextIsValid.bind(this);
   }
 
-  handleRestaurantChange(event) {
-    const restaurant = event.target.value;
-    this.setState({ restaurant });
-  }
-
-  submitData() {
-    const { restaurant } = this.state;
-    const { meal, handleUpdateRestaurant } = this.props;
+  handleNextIsValid() {
+    const { meal, restaurant, handleGoToNext } = this.props;
     if (showValidRestaurants(meal).includes(restaurant)) {
-      handleUpdateRestaurant(restaurant);
+      handleGoToNext();
     } else {
       this.setState({ showError: true });
     }
   }
 
   render() {
-    const { restaurant, showError } = this.state;
-    const { meal, handleGoToPrevious } = this.props;
+    const { showError } = this.state;
+    const {
+      meal,
+      restaurant,
+      handleUpdateStateValue,
+      handleGoToPrevious
+    } = this.props;
     return (
       <div>
         <form>
@@ -41,7 +39,9 @@ class SelectRestaurant extends Component {
             <select
               className="selectRestaurant"
               value={restaurant}
-              onChange={this.handleRestaurantChange}
+              onChange={event =>
+                handleUpdateStateValue("restaurant", event.target.value)
+              }
             >
               {["---", ...showValidRestaurants(meal)].map(mealType => {
                 return <option key={mealType}>{mealType}</option>;
@@ -61,7 +61,7 @@ class SelectRestaurant extends Component {
           <button
             className="nextButton"
             type="submit"
-            onClick={() => this.submitData()}
+            onClick={() => this.handleNextIsValid()}
           >
             Next
           </button>
@@ -73,7 +73,9 @@ class SelectRestaurant extends Component {
 
 SelectRestaurant.propTypes = {
   meal: PropTypes.string.isRequired,
-  handleUpdateRestaurant: PropTypes.func.isRequired,
+  restaurant: PropTypes.string.isRequired,
+  handleUpdateStateValue: PropTypes.func.isRequired,
+  handleGoToNext: PropTypes.func.isRequired,
   handleGoToPrevious: PropTypes.func.isRequired
 };
 

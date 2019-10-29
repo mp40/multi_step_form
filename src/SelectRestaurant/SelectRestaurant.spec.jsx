@@ -6,13 +6,22 @@ const selectValue = wrapper => (className, value) =>
   wrapper.find(className).simulate("change", { target: { value } });
 
 describe("selecting a restaurant", () => {
-  const wrapper = shallow(
-    <SelectRestaurant
-      meal="Breakfast"
-      handleUpdateRestaurant={jest.fn()}
-      handleGoToPrevious={jest.fn()}
-    />
-  );
+  let wrapper;
+  const handleUpdateStateValue = jest.fn();
+  beforeEach(() => {
+    wrapper = shallow(
+      <SelectRestaurant
+        meal="Breakfast"
+        restaurant="Breakfast Place 1"
+        handleUpdateStateValue={handleUpdateStateValue}
+        handleGoToNext={jest.fn()}
+        handleGoToPrevious={jest.fn()}
+      />
+    );
+  });
+  afterEach(() => {
+    handleUpdateStateValue.mockClear();
+  });
   it("should have a default of three dashes ", () => {
     const defaultText = wrapper
       .find(".selectRestaurant")
@@ -37,33 +46,42 @@ describe("selecting a restaurant", () => {
       "Dinner Place 1Dinner Place 2Dinner Place 3"
     );
   });
-  it("should update value when restaurant is selected", () => {
-    wrapper.setProps({ meal: "Breakfast" });
-    selectValue(wrapper)(".selectRestaurant", "Breakfast Place 2");
-    expect(wrapper.find("select").props().value).toBe("Breakfast Place 2");
+  it("should be possible to select restaurant", () => {
+    wrapper.setProps({ meal: "Dinner" });
+    selectValue(wrapper)(".selectRestaurant", "Dinner Place 2");
+    expect(handleUpdateStateValue).toHaveBeenCalledWith(
+      "restaurant",
+      "Dinner Place 2"
+    );
   });
 });
 
-describe("submitting data", () => {
-  const handleUpdateRestaurant = jest.fn();
-  const wrapper = shallow(
-    <SelectRestaurant
-      meal="Breakfast"
-      handleUpdateRestaurant={handleUpdateRestaurant}
-      handleGoToPrevious={jest.fn()}
-    />
-  );
-  it("should submit restaurant", () => {
-    wrapper.setState({ restaurant: "Breakfast Place 1" });
-    wrapper.find(".nextButton").simulate("click");
-    expect(handleUpdateRestaurant).toHaveBeenCalledWith("Breakfast Place 1");
-    handleUpdateRestaurant.mockClear();
+describe("going to next page", () => {
+  const handleGoToNext = jest.fn();
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(
+      <SelectRestaurant
+        meal="Breakfast"
+        restaurant="---"
+        handleUpdateStateValue={jest.fn()}
+        handleGoToNext={handleGoToNext}
+        handleGoToPrevious={jest.fn()}
+      />
+    );
   });
-  it("should show error if restaurant not selected", () => {
-    wrapper.setState({ restaurant: "---" });
+  afterEach(() => {
+    handleGoToNext.mockClear();
+  });
+  it("should throw an error if valid restaurant not selected", () => {
     wrapper.find(".nextButton").simulate("click");
-    expect(handleUpdateRestaurant).not.toHaveBeenCalled();
+    expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Please select valid restaurant");
+  });
+  it("should handle going to the next page if restaurant is valid", () => {
+    wrapper.setProps({ meal: "Lunch", restaurant: "Lunch Place 3" });
+    wrapper.find(".nextButton").simulate("click");
+    expect(handleGoToNext).toHaveBeenCalled();
   });
 });
 
@@ -72,11 +90,13 @@ describe("previous button", () => {
   const wrapper = shallow(
     <SelectRestaurant
       meal="Breakfast"
-      handleUpdateRestaurant={jest.fn()}
+      restaurant="Breakfast Place 1"
+      handleUpdateStateValue={jest.fn()}
+      handleGoToNext={jest.fn()}
       handleGoToPrevious={handleGoToPrevious}
     />
   );
-  it("should ", () => {
+  it("should call handleGoToPrevious method", () => {
     wrapper.find(".prevButton").simulate("click");
     expect(handleGoToPrevious).toHaveBeenCalled();
   });

@@ -7,13 +7,22 @@ const selectValue = wrapper => (className, value) =>
 
 describe("selecting dishes", () => {
   let wrapper;
+  const handleUpdateStateValue = jest.fn();
   beforeEach(() => {
     wrapper = shallow(
       <SelectDish
         restaurant="Breakfast Place 3"
+        people="1"
+        dish={["---"]}
+        servings={[1]}
+        handleGoToNext={jest.fn()}
         handleGoToPrevious={jest.fn()}
+        handleUpdateStateValue={handleUpdateStateValue}
       />
     );
+  });
+  afterEach(() => {
+    handleUpdateStateValue.mockClear();
   });
   it("should have a default of three dashes ", () => {
     const defaultText = wrapper
@@ -29,13 +38,18 @@ describe("selecting dishes", () => {
   });
   it("should be possible to select a dish", () => {
     selectValue(wrapper)(".selectDish", "Breakfast Dish 3a");
-    expect(wrapper.find("select").props().value).toBe("Breakfast Dish 3a");
+    expect(handleUpdateStateValue).toHaveBeenCalledWith("dish", [
+      "Breakfast Dish 3a"
+    ]);
   });
   it("should be possible to select additional dishes", () => {
     const dish = ["Breakfast Dish 3a"];
-    wrapper.setState({ dish });
+    wrapper.setProps({ dish });
     wrapper.find(".addDish").simulate("click");
-    expect(wrapper.find("select")).toHaveLength(2);
+    expect(handleUpdateStateValue).toHaveBeenCalledWith("dish", [
+      "Breakfast Dish 3a",
+      "---"
+    ]);
   });
   it("should not allow an extra dish to be added until dish added in existing", () => {
     wrapper.find(".addDish").simulate("click");
@@ -50,7 +64,7 @@ describe("selecting dishes", () => {
   });
   it("should not allow the same dish to be added twice", () => {
     const dish = ["Breakfast Dish 3a", "---"];
-    wrapper.setState({ dish });
+    wrapper.setProps({ dish });
     wrapper
       .find("select")
       .at(1)
@@ -60,9 +74,20 @@ describe("selecting dishes", () => {
 });
 
 describe("incrementing servings", () => {
-  const wrapper = shallow(
-    <SelectDish restaurant="Breakfast Place 3" handleGoToPrevious={jest.fn()} />
-  );
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(
+      <SelectDish
+        restaurant="Breakfast Place 3"
+        people="1"
+        dish={["---"]}
+        servings={[1]}
+        handleGoToNext={jest.fn()}
+        handleGoToPrevious={jest.fn()}
+        handleUpdateStateValue={jest.fn()}
+      />
+    );
+  });
   it("should be start with default of one serving", () => {
     expect(wrapper.find(".servingQty").props().value).toBe(1);
   });
@@ -79,7 +104,7 @@ describe("incrementing servings", () => {
     );
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
     const servings = [1, 1];
-    wrapper.setState({ dish, servings });
+    wrapper.setProps({ dish, servings });
     wrapper
       .find(".servingQty")
       .at(1)
@@ -89,5 +114,80 @@ describe("incrementing servings", () => {
       1
     );
     handleServingChangeSpy.mockClear();
+  });
+});
+
+describe("going to next page", () => {
+  const handleGoToNext = jest.fn();
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(
+      <SelectDish
+        restaurant="Breakfast Place 3"
+        people="1"
+        dish={["---"]}
+        servings={[1]}
+        handleGoToNext={handleGoToNext}
+        handleGoToPrevious={jest.fn()}
+        handleUpdateStateValue={jest.fn()}
+      />
+    );
+  });
+  afterEach(() => {
+    handleGoToNext.mockClear();
+  });
+  it("should not proceed to next if valid meals are not selected", () => {
+    const dish = ["Breakfast Dish 3a", "---"];
+    const servings = [1, 1];
+    wrapper.setProps({ dish, servings });
+    wrapper.find(".nextButton").simulate("click");
+    expect(handleGoToNext).not.toHaveBeenCalled();
+    expect(wrapper.text()).toContain("Error: Please select a dish");
+  });
+  it("should not have more than ten total dishes", () => {
+    const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
+    const servings = [5, 6];
+    wrapper.setProps({ dish, servings });
+    wrapper.find(".nextButton").simulate("click");
+    expect(handleGoToNext).not.toHaveBeenCalled();
+    expect(wrapper.text()).toContain("Too many servings, maximum is ten");
+  });
+  it("should not have less total dishes than people", () => {
+    const people = "5";
+    const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
+    const servings = [2, 2];
+    wrapper.setProps({ people, dish, servings });
+    wrapper.find(".nextButton").simulate("click");
+    expect(handleGoToNext).not.toHaveBeenCalled();
+    expect(wrapper.text()).toContain(
+      "Not enough servings, minimum is one per person"
+    );
+  });
+  it("should proceed to next page if meals are valid, less than 10 and not less than people", () => {
+    const people = "5";
+    const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
+    const servings = [3, 2];
+    wrapper.setProps({ people, dish, servings });
+    wrapper.find(".nextButton").simulate("click");
+    expect(handleGoToNext).toHaveBeenCalled();
+  });
+});
+
+describe("previous button", () => {
+  const handleGoToPrevious = jest.fn();
+  const wrapper = shallow(
+    <SelectDish
+      restaurant="Breakfast Place 3"
+      people="1"
+      dish={["---"]}
+      servings={[1]}
+      handleGoToNext={jest.fn()}
+      handleGoToPrevious={handleGoToPrevious}
+      handleUpdateStateValue={jest.fn()}
+    />
+  );
+  it("should call handleGoToPrevious method", () => {
+    wrapper.find(".prevButton").simulate("click");
+    expect(handleGoToPrevious).toHaveBeenCalled();
   });
 });
