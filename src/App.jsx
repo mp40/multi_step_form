@@ -3,6 +3,7 @@ import SelectMeal from "./SelectMeal/index";
 import SelectRestaurant from "./SelectRestaurant/index";
 import SelectDish from "./SelectDish/index";
 import "./App.css";
+import Review from "./Review";
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends Component {
     this.handleUpdateStateValue = this.handleUpdateStateValue.bind(this);
     this.handleGoToNext = this.handleGoToNext.bind(this);
     this.handleGoToPrevious = this.handleGoToPrevious.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleUpdateStateValue(name, value) {
@@ -38,6 +40,8 @@ class App extends Component {
       page: page - 1
     });
   }
+
+  handleSubmit() {}
 
   render() {
     const { page, meal, people, restaurant, dish, servings } = this.state;
@@ -71,6 +75,17 @@ class App extends Component {
               handleUpdateStateValue={this.handleUpdateStateValue}
               handleGoToNext={this.handleGoToNext}
               handleGoToPrevious={this.handleGoToPrevious}
+            />
+          )}
+          {page === 4 && (
+            <Review
+              meal={meal}
+              restaurant={restaurant}
+              people={people}
+              dish={dish}
+              servings={servings}
+              handleGoToPrevious={this.handleGoToPrevious}
+              handleSubmit={this.handleSubmit}
             />
           )}
         </div>
