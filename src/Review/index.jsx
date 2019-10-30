@@ -3,6 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import ButtonBar from "../components/ButtonBar";
+
 const Review = ({
   meal,
   people,
@@ -38,18 +40,11 @@ const Review = ({
       {showTypeAndSelection("No. of people", people)}
       {showTypeAndSelection("Restaurant", restaurant)}
       {showTypeAndSelection("Dishes", showDishes())}
-      <div>
-        <button
-          className="prevButton"
-          type="submit"
-          onClick={() => handleGoToPrevious()}
-        >
-          Prev
-        </button>
-        <button className="submit" type="submit" onClick={() => handleSubmit()}>
-          Submit
-        </button>
-      </div>
+      <ButtonBar
+        onClickLeft={handleGoToPrevious}
+        onClickRight={handleSubmit}
+        rightButton="submit"
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import SelectRestaurant from "./index";
 
 const selectValue = wrapper => (className, value) =>
@@ -9,7 +9,7 @@ describe("selecting a restaurant", () => {
   let wrapper;
   const handleUpdateStateValue = jest.fn();
   beforeEach(() => {
-    wrapper = shallow(
+    wrapper = mount(
       <SelectRestaurant
         meal="Breakfast"
         restaurant="Breakfast Place 1"
@@ -58,6 +58,12 @@ describe("selecting a restaurant", () => {
 
 describe("going to next page", () => {
   const handleGoToNext = jest.fn();
+  const nextButton = wrapper => {
+    return wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("NextButton");
+  };
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
@@ -74,13 +80,13 @@ describe("going to next page", () => {
     handleGoToNext.mockClear();
   });
   it("should throw an error if valid restaurant not selected", () => {
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Please select valid restaurant");
   });
   it("should handle going to the next page if restaurant is valid", () => {
     wrapper.setProps({ meal: "Lunch", restaurant: "Lunch Place 3" });
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).toHaveBeenCalled();
   });
 });
@@ -97,7 +103,11 @@ describe("previous button", () => {
     />
   );
   it("should call handleGoToPrevious method", () => {
-    wrapper.find(".prevButton").simulate("click");
+    wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("PrevButton")
+      .simulate("click");
     expect(handleGoToPrevious).toHaveBeenCalled();
   });
 });

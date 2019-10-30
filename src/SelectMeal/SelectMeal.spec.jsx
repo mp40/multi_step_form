@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import SelectMeal from "./index";
 
 const selectValue = wrapper => (className, value) =>
@@ -9,7 +9,7 @@ describe("selecting a meal", () => {
   const handleUpdateStateValue = jest.fn();
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(
+    wrapper = mount(
       <SelectMeal
         meal="---"
         people="1"
@@ -67,7 +67,7 @@ describe("selecting number of people", () => {
   const handleUpdateStateValue = jest.fn();
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(
+    wrapper = mount(
       <SelectMeal
         meal="---"
         people="1"
@@ -111,13 +111,13 @@ describe("going to next page", () => {
     handleGoToNext.mockClear();
   });
   it("should throw an error if valid meal not selected", () => {
-    wrapper.find(".nextButton").simulate("click");
+    wrapper.find("NextButton").simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Please select valid meal");
   });
   it("should handle going to the next page if meal is valid", () => {
     wrapper.setProps({ meal: "Lunch" });
-    wrapper.find(".nextButton").simulate("click");
+    wrapper.find("NextButton").simulate("click");
     expect(handleGoToNext).toHaveBeenCalled();
   });
 });

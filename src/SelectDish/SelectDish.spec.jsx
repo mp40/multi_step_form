@@ -57,7 +57,7 @@ describe("selecting dishes", () => {
     expect(wrapper.text()).toContain("Error: Please select a dish");
   });
   it("should remove error msg when dish selected", () => {
-    const showDishError = "Please select a dish";
+    const showDishError = "Error: Please select a dish";
     wrapper.setState({ showDishError });
     selectValue(wrapper)(".selectDish", "Breakfast Dish 3a");
     expect(wrapper.text()).not.toContain("Error: Please select a dish");
@@ -119,6 +119,12 @@ describe("incrementing servings", () => {
 
 describe("going to next page", () => {
   const handleGoToNext = jest.fn();
+  const nextButton = wrapper => {
+    return wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("NextButton");
+  };
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
@@ -140,7 +146,7 @@ describe("going to next page", () => {
     const dish = ["Breakfast Dish 3a", "---"];
     const servings = ["1", "1"];
     wrapper.setProps({ dish, servings });
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Error: Please select a dish");
   });
@@ -148,7 +154,7 @@ describe("going to next page", () => {
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
     const servings = ["5", "6"];
     wrapper.setProps({ dish, servings });
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain("Too many servings, maximum is ten");
   });
@@ -157,7 +163,7 @@ describe("going to next page", () => {
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
     const servings = ["2", "2"];
     wrapper.setProps({ people, dish, servings });
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
     expect(wrapper.text()).toContain(
       "Not enough servings, minimum is one per person"
@@ -168,7 +174,7 @@ describe("going to next page", () => {
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
     const servings = ["3", "2"];
     wrapper.setProps({ people, dish, servings });
-    wrapper.find(".nextButton").simulate("click");
+    nextButton(wrapper).simulate("click");
     expect(handleGoToNext).toHaveBeenCalled();
   });
 });
@@ -187,7 +193,11 @@ describe("previous button", () => {
     />
   );
   it("should call handleGoToPrevious method", () => {
-    wrapper.find(".prevButton").simulate("click");
+    wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("PrevButton")
+      .simulate("click");
     expect(handleGoToPrevious).toHaveBeenCalled();
   });
 });

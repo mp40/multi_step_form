@@ -49,45 +49,47 @@ class App extends Component {
       <div className="App">
         <header className="App-header">Multi Step Form</header>
         <div className="App-body">
-          {page === 1 && (
-            <SelectMeal
-              meal={meal}
-              people={people}
-              handleUpdateStateValue={this.handleUpdateStateValue}
-              handleGoToNext={this.handleGoToNext}
-            />
-          )}
-          {page === 2 && (
-            <SelectRestaurant
-              meal={meal}
-              restaurant={restaurant}
-              handleUpdateStateValue={this.handleUpdateStateValue}
-              handleGoToNext={this.handleGoToNext}
-              handleGoToPrevious={this.handleGoToPrevious}
-            />
-          )}
-          {page === 3 && (
-            <SelectDish
-              restaurant={restaurant}
-              people={people}
-              dish={dish}
-              servings={servings}
-              handleUpdateStateValue={this.handleUpdateStateValue}
-              handleGoToNext={this.handleGoToNext}
-              handleGoToPrevious={this.handleGoToPrevious}
-            />
-          )}
-          {page === 4 && (
-            <Review
-              meal={meal}
-              restaurant={restaurant}
-              people={people}
-              dish={dish}
-              servings={servings}
-              handleGoToPrevious={this.handleGoToPrevious}
-              handleSubmit={this.handleSubmit}
-            />
-          )}
+          <div className="contents">
+            {page === 1 && (
+              <SelectMeal
+                meal={meal}
+                people={people}
+                handleUpdateStateValue={this.handleUpdateStateValue}
+                handleGoToNext={this.handleGoToNext}
+              />
+            )}
+            {page === 2 && (
+              <SelectRestaurant
+                meal={meal}
+                restaurant={restaurant}
+                handleUpdateStateValue={this.handleUpdateStateValue}
+                handleGoToNext={this.handleGoToNext}
+                handleGoToPrevious={this.handleGoToPrevious}
+              />
+            )}
+            {page === 3 && (
+              <SelectDish
+                restaurant={restaurant}
+                people={people}
+                dish={dish}
+                servings={servings}
+                handleUpdateStateValue={this.handleUpdateStateValue}
+                handleGoToNext={this.handleGoToNext}
+                handleGoToPrevious={this.handleGoToPrevious}
+              />
+            )}
+            {page === 4 && (
+              <Review
+                meal={meal}
+                restaurant={restaurant}
+                people={people}
+                dish={dish}
+                servings={servings}
+                handleGoToPrevious={this.handleGoToPrevious}
+                handleSubmit={this.handleSubmit}
+              />
+            )}
+          </div>
         </div>
       </div>
     );

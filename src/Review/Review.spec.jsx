@@ -49,11 +49,19 @@ describe("buttons", () => {
     handleSubmit.mockClear();
   });
   it("should call handleGoToPrevious method when previous button clicked", () => {
-    wrapper.find(".prevButton").simulate("click");
+    wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("PrevButton")
+      .simulate("click");
     expect(handleGoToPrevious).toHaveBeenCalled();
   });
   it("should call handleSubmit method when submit button clicked", () => {
-    wrapper.find(".submit").simulate("click");
+    wrapper
+      .find("ButtonBar")
+      .dive()
+      .find("SubmitButton")
+      .simulate("click");
     expect(handleSubmit).toHaveBeenCalled();
   });
 });

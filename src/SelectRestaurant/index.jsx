@@ -1,75 +1,52 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-onchange */
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+
+import ButtonBar from "../components/ButtonBar";
+import DropDownSelect from "../components/DropDownSelect";
+
 import showValidRestaurants from "./data";
 
-class SelectRestaurant extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showError: false
-    };
+const SelectRestaurant = ({
+  meal,
+  restaurant,
+  handleUpdateStateValue,
+  handleGoToNext,
+  handleGoToPrevious
+}) => {
+  const [error, showError] = useState(false);
 
-    this.handleNextIsValid = this.handleNextIsValid.bind(this);
-  }
-
-  handleNextIsValid() {
-    const { meal, restaurant, handleGoToNext } = this.props;
+  const handleNextIsValid = () => {
     if (showValidRestaurants(meal).includes(restaurant)) {
       handleGoToNext();
     } else {
-      this.setState({ showError: true });
+      showError(true);
     }
-  }
+  };
 
-  render() {
-    const { showError } = this.state;
-    const {
-      meal,
-      restaurant,
-      handleUpdateStateValue,
-      handleGoToPrevious
-    } = this.props;
-    return (
-      <div>
-        <form>
-          <label>
-            Please select a restaurant
-            <select
-              className="selectRestaurant"
-              value={restaurant}
-              onChange={event =>
-                handleUpdateStateValue("restaurant", event.target.value)
-              }
-            >
-              {["---", ...showValidRestaurants(meal)].map(mealType => {
-                return <option key={mealType}>{mealType}</option>;
-              })}
-            </select>
-          </label>
-          {showError && <p>Please select valid restaurant</p>}
-        </form>
-        <div>
-          <button
-            className="prevButton"
-            type="submit"
-            onClick={() => handleGoToPrevious()}
-          >
-            Prev
-          </button>
-          <button
-            className="nextButton"
-            type="submit"
-            onClick={() => this.handleNextIsValid()}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    );
-  }
-}
+  const dropDownContents = () => {
+    return ["---", ...showValidRestaurants(meal)].map(mealType => {
+      return <option key={mealType}>{mealType}</option>;
+    });
+  };
+
+  return (
+    <div>
+      <DropDownSelect
+        heading="Please select a restaurant"
+        name="selectRestaurant"
+        value={restaurant}
+        handleUpdate={handleUpdateStateValue}
+        handleUpdateKey="restaurant"
+        contents={dropDownContents}
+      />
+      {error && <p>Please select valid restaurant</p>}
+      <ButtonBar
+        onClickLeft={handleGoToPrevious}
+        onClickRight={handleNextIsValid}
+      />
+    </div>
+  );
+};
 
 SelectRestaurant.propTypes = {
   meal: PropTypes.string.isRequired,

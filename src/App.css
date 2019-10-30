@@ -19,3 +19,9 @@
   font-size: calc(10px + 1vmin);
   min-height: 90vh;
 }
+
+.contents {
+  width: 40vw;
+  margin: 0 auto;
+  padding: 2rem 0;
+}

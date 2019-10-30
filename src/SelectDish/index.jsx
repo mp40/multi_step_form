@@ -2,6 +2,9 @@
 /* eslint-disable jsx-a11y/no-onchange */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
+import ButtonBar from "../components/ButtonBar";
+import DropDownSelect from "../components/DropDownSelect";
 import showValidDishes from "./data";
 
 const createKey = (dish, index) => {
@@ -37,6 +40,7 @@ class SelectDish extends Component {
       const updatedDish = dish.map((dishName, dex) => {
         return index === dex ? event.target.value : dishName;
       });
+      this.setState({ showDishError: false });
       handleUpdateStateValue("dish", updatedDish);
     }
   }
@@ -134,20 +138,10 @@ class SelectDish extends Component {
           <p>Not enough servings, minimum is one per person</p>
         )}
         <div>
-          <button
-            className="prevButton"
-            type="submit"
-            onClick={() => handleGoToPrevious()}
-          >
-            Prev
-          </button>
-          <button
-            className="nextButton"
-            type="submit"
-            onClick={() => this.handleNextIsValid()}
-          >
-            Next
-          </button>
+          <ButtonBar
+            onClickLeft={handleGoToPrevious}
+            onClickRight={this.handleNextIsValid}
+          />
         </div>
       </div>
     );
