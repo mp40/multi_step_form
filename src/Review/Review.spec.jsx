@@ -9,7 +9,7 @@ describe("reviewing order", () => {
       people="5"
       restaurant="Breakfast Place 3"
       dish={["Breakfast Dish 3a", "Breakfast Dish 3b"]}
-      servings={[3, 3]}
+      servings={["3", "3"]}
       handleGoToPrevious={jest.fn()}
       handleSubmit={jest.fn()}
     />
@@ -39,7 +39,7 @@ describe("buttons", () => {
       people="5"
       restaurant="Breakfast Place 3"
       dish={["Breakfast Dish 3a", "Breakfast Dish 3b"]}
-      servings={[3, 3]}
+      servings={["3", "3"]}
       handleGoToPrevious={handleGoToPrevious}
       handleSubmit={handleSubmit}
     />

@@ -8,9 +8,9 @@ const createKey = (dish, index) => {
   return `${dish}${index}`;
 };
 
-const getTotalServings = servings => {
+export const getTotalServings = servings => {
   return servings.reduce((acc, amount) => {
-    return acc + amount;
+    return acc + parseInt(amount, 10);
   }, 0);
 };
 
@@ -42,11 +42,12 @@ class SelectDish extends Component {
   }
 
   handleAddDish() {
-    const { dish, handleUpdateStateValue } = this.props;
+    const { dish, servings, handleUpdateStateValue } = this.props;
     if (dish.includes("---")) {
       this.setState({ showDishError: "Error: Please select a dish" });
     } else {
       handleUpdateStateValue("dish", [...dish, "---"]);
+      handleUpdateStateValue("servings", [...servings, "1"]);
     }
   }
 
@@ -157,7 +158,7 @@ SelectDish.propTypes = {
   restaurant: PropTypes.string.isRequired,
   people: PropTypes.string.isRequired,
   dish: PropTypes.arrayOf(PropTypes.string).isRequired,
-  servings: PropTypes.arrayOf(PropTypes.number).isRequired,
+  servings: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleUpdateStateValue: PropTypes.func.isRequired,
   handleGoToNext: PropTypes.func.isRequired,
   handleGoToPrevious: PropTypes.func.isRequired

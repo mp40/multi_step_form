@@ -12,31 +12,32 @@ const Review = ({
   handleGoToPrevious,
   handleSubmit
 }) => {
+  const showDishes = () => {
+    return (
+      <>
+        {dish.map((dishName, index) => {
+          return <div key={dishName}>{`${dishName} - ${servings[index]}`}</div>;
+        })}
+        ;
+      </>
+    );
+  };
+
+  const showTypeAndSelection = (type, selected) => {
+    return (
+      <div>
+        <div>{type}</div>
+        <div>{selected}</div>
+      </div>
+    );
+  };
+
   return (
     <div className="review">
-      <div>
-        <div>Meal</div>
-        <div>{meal}</div>
-      </div>
-      <div>
-        <div>No. of people</div>
-        <div>{people}</div>
-      </div>
-      <div>
-        <div>Restaurant</div>
-        <div>{restaurant}</div>
-      </div>
-      <div>
-        <div>Dishes</div>
-        <div>
-          {dish.map((dishName, index) => {
-            return (
-              <div key={dishName}>{`${dishName} - ${servings[index]}`}</div>
-            );
-          })}
-          ;
-        </div>
-      </div>
+      {showTypeAndSelection("Meal", meal)}
+      {showTypeAndSelection("No. of people", people)}
+      {showTypeAndSelection("Restaurant", restaurant)}
+      {showTypeAndSelection("Dishes", showDishes())}
       <div>
         <button
           className="prevButton"
@@ -58,7 +59,7 @@ Review.propTypes = {
   people: PropTypes.string.isRequired,
   restaurant: PropTypes.string.isRequired,
   dish: PropTypes.arrayOf(PropTypes.string).isRequired,
-  servings: PropTypes.arrayOf(PropTypes.number).isRequired,
+  servings: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleGoToPrevious: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };

@@ -14,7 +14,7 @@ class App extends Component {
       people: "1",
       restaurant: "---",
       dish: ["---"],
-      servings: [1]
+      servings: ["1"]
     };
 
     this.handleUpdateStateValue = this.handleUpdateStateValue.bind(this);

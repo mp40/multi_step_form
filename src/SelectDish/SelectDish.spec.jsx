@@ -14,7 +14,7 @@ describe("selecting dishes", () => {
         restaurant="Breakfast Place 3"
         people="1"
         dish={["---"]}
-        servings={[1]}
+        servings={["1"]}
         handleGoToNext={jest.fn()}
         handleGoToPrevious={jest.fn()}
         handleUpdateStateValue={handleUpdateStateValue}
@@ -81,7 +81,7 @@ describe("incrementing servings", () => {
         restaurant="Breakfast Place 3"
         people="1"
         dish={["---"]}
-        servings={[1]}
+        servings={["1"]}
         handleGoToNext={jest.fn()}
         handleGoToPrevious={jest.fn()}
         handleUpdateStateValue={jest.fn()}
@@ -89,7 +89,7 @@ describe("incrementing servings", () => {
     );
   });
   it("should be start with default of one serving", () => {
-    expect(wrapper.find(".servingQty").props().value).toBe(1);
+    expect(wrapper.find(".servingQty").props().value).toBe("1");
   });
   it("should have a minimum value of one", () => {
     expect(wrapper.find(".servingQty").props().min).toBe("1");
@@ -103,7 +103,7 @@ describe("incrementing servings", () => {
       "handleServingChange"
     );
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
-    const servings = [1, 1];
+    const servings = ["1", "1"];
     wrapper.setProps({ dish, servings });
     wrapper
       .find(".servingQty")
@@ -126,7 +126,7 @@ describe("going to next page", () => {
         restaurant="Breakfast Place 3"
         people="1"
         dish={["---"]}
-        servings={[1]}
+        servings={["1"]}
         handleGoToNext={handleGoToNext}
         handleGoToPrevious={jest.fn()}
         handleUpdateStateValue={jest.fn()}
@@ -138,7 +138,7 @@ describe("going to next page", () => {
   });
   it("should not proceed to next if valid meals are not selected", () => {
     const dish = ["Breakfast Dish 3a", "---"];
-    const servings = [1, 1];
+    const servings = ["1", "1"];
     wrapper.setProps({ dish, servings });
     wrapper.find(".nextButton").simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
@@ -146,7 +146,7 @@ describe("going to next page", () => {
   });
   it("should not have more than ten total dishes", () => {
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
-    const servings = [5, 6];
+    const servings = ["5", "6"];
     wrapper.setProps({ dish, servings });
     wrapper.find(".nextButton").simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
@@ -155,7 +155,7 @@ describe("going to next page", () => {
   it("should not have less total dishes than people", () => {
     const people = "5";
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
-    const servings = [2, 2];
+    const servings = ["2", "2"];
     wrapper.setProps({ people, dish, servings });
     wrapper.find(".nextButton").simulate("click");
     expect(handleGoToNext).not.toHaveBeenCalled();
@@ -166,7 +166,7 @@ describe("going to next page", () => {
   it("should proceed to next page if meals are valid, less than 10 and not less than people", () => {
     const people = "5";
     const dish = ["Breakfast Dish 3a", "Breakfast Dish 3b"];
-    const servings = [3, 2];
+    const servings = ["3", "2"];
     wrapper.setProps({ people, dish, servings });
     wrapper.find(".nextButton").simulate("click");
     expect(handleGoToNext).toHaveBeenCalled();
@@ -180,7 +180,7 @@ describe("previous button", () => {
       restaurant="Breakfast Place 3"
       people="1"
       dish={["---"]}
-      servings={[1]}
+      servings={["1"]}
       handleGoToNext={jest.fn()}
       handleGoToPrevious={handleGoToPrevious}
       handleUpdateStateValue={jest.fn()}
