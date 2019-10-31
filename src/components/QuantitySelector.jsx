@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-onchange */
-
 import React from "react";
 import PropTypes from "prop-types";
+
+import InputQty from "./InputQty";
 
 import "./styles.css";
 
@@ -15,11 +14,7 @@ const QuantitySelector = ({
   return (
     <>
       <div>{heading}</div>
-      <input
-        type="number"
-        name="quantity"
-        min="1"
-        max="10"
+      <InputQty
         value={value}
         onChange={event => handleUpdate(handleUpdateKey, event.target.value)}
       />
@@ -35,18 +30,3 @@ QuantitySelector.propTypes = {
 };
 
 export default QuantitySelector;
-
-{
-  /* <div>Please select number of people</div>
-<input
-  type="number"
-  name="quantity"
-  min="1"
-  max="10"
-  value={people}
-  onChange={event =>
-    handleUpdateStateValue("people", event.target.value)
-  }
-/>
-</div> */
-}

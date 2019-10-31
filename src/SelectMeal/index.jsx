@@ -47,7 +47,7 @@ const SelectMeal = ({
         handleUpdate={handleUpdateStateValue}
         handleUpdateKey="people"
       />
-      <div>
+      <div className="buttonBar">
         <NextButton onClick={handleNextIsValid} />
       </div>
       {error && <p>Please select valid meal</p>}

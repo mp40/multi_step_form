@@ -1,0 +1,9 @@
+.selectRestaurantContainer {
+    text-align: left;
+    width: 25vw;
+    margin: 0 auto;
+}
+
+.selectRestaurantContainer > div:first-of-type {
+    margin: 1rem 0;
+}

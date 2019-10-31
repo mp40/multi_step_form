@@ -27,3 +27,11 @@ input {
     border: none;
     padding: 3px 4px;
 }
+
+.buttonBar {
+    position: absolute;
+    width: 100%;
+    bottom: .5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}

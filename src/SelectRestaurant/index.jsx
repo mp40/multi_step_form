@@ -6,6 +6,8 @@ import DropDownSelect from "../components/DropDownSelect";
 
 import showValidRestaurants from "./data";
 
+import "./styles.css";
+
 const SelectRestaurant = ({
   meal,
   restaurant,
@@ -30,7 +32,7 @@ const SelectRestaurant = ({
   };
 
   return (
-    <div>
+    <div className="selectRestaurantContainer">
       <DropDownSelect
         heading="Please select a restaurant"
         name="selectRestaurant"

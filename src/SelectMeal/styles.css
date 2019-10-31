@@ -1,3 +1,9 @@
+.selectMealContainer {
+    text-align: left;
+    width: 25vw;
+    margin: 0 auto;
+}
+
 .selectMealContainer > div:first-of-type {
     margin: 1rem 0;
 }

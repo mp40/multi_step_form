@@ -1,0 +1,17 @@
+.reviewContainer {
+    width: 25vw;
+    margin: 1rem auto 0;
+}
+.reviewContainer > div:nth-last-child(n+2) {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reviewContainer > div:nth-last-child(n+2) > div {
+    margin: 0 15px 1rem;
+}
+
+.reviewContainer > div:nth-last-child(2) > div:last-child {
+    border: 1px solid whitesmoke;
+    padding: 3px;
+}

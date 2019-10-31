@@ -4,8 +4,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import ButtonBar from "../components/ButtonBar";
-import DropDownSelect from "../components/DropDownSelect";
 import showValidDishes from "./data";
+
+import "./styles.css";
 
 const createKey = (dish, index) => {
   return `${dish}${index}`;
@@ -88,12 +89,15 @@ class SelectDish extends Component {
       handleGoToPrevious
     } = this.props;
     return (
-      <div>
+      <div className="selectDishContainer">
+        <div className="selectDishHeadings">
+          <div> Please select a dish</div>
+          <div>Please enter no. of servings</div>
+        </div>
         <form>
-          Please select a dish
           {dish.map((dishType, index) => {
             return (
-              <div key={createKey(dishType, index)}>
+              <div key={createKey(dishType, index)} className="dishSelectRow">
                 <label>
                   <select
                     className="selectDish"
@@ -106,7 +110,6 @@ class SelectDish extends Component {
                   </select>
                 </label>
                 <div>
-                  Please select number of servings
                   <input
                     className="servingQty"
                     type="number"

@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-onchange */
 import React from "react";
 import PropTypes from "prop-types";
 
 import ButtonBar from "../components/ButtonBar";
+
+import "./styles.css";
 
 const Review = ({
   meal,
@@ -20,7 +20,6 @@ const Review = ({
         {dish.map((dishName, index) => {
           return <div key={dishName}>{`${dishName} - ${servings[index]}`}</div>;
         })}
-        ;
       </>
     );
   };
@@ -35,7 +34,7 @@ const Review = ({
   };
 
   return (
-    <div className="review">
+    <div className="reviewContainer">
       {showTypeAndSelection("Meal", meal)}
       {showTypeAndSelection("No. of people", people)}
       {showTypeAndSelection("Restaurant", restaurant)}
