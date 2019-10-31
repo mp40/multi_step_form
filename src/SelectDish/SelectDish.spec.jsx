@@ -115,6 +115,16 @@ describe("incrementing servings", () => {
     );
     handleServingChangeSpy.mockClear();
   });
+  it("should remove the increment button once all dish options have been used", () => {
+    const dish = [
+      "Breakfast Dish 3a",
+      "Breakfast Dish 3b",
+      "Breakfast Dish 3c"
+    ];
+    const servings = ["1", "1", "1"];
+    wrapper.setProps({ dish, servings });
+    expect(wrapper.text()).not.toContain("+");
+  });
 });
 
 describe("going to next page", () => {

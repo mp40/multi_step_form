@@ -41,7 +41,19 @@ class App extends Component {
     });
   }
 
-  handleSubmit() {}
+  handleSubmit() {
+    const { meal, people, restaurant, dish, servings } = this.state;
+    const mealLine = `Meal: ${meal}`;
+    const peopleLine = `No of people: ${people}`;
+    const restaurantLine = `Restaurant: ${restaurant}`;
+    let dishLine = "Dishes:";
+    dish.forEach((dishName, index) => {
+      dishLine = dishLine.concat(` ${dishName} - ${servings[index]}`);
+    });
+    // eslint-disable-next-line no-console
+    console.log(mealLine, peopleLine, restaurantLine, dishLine);
+    this.handleGoToNext();
+  }
 
   render() {
     const { page, meal, people, restaurant, dish, servings } = this.state;

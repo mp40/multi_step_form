@@ -16,7 +16,8 @@ const QuantitySelector = ({
       <div>{heading}</div>
       <InputQty
         value={value}
-        onChange={event => handleUpdate(handleUpdateKey, event.target.value)}
+        handleUpdate={handleUpdate}
+        handleUpdateKey={handleUpdateKey}
       />
     </>
   );

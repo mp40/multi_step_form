@@ -88,6 +88,7 @@ class SelectDish extends Component {
       servings,
       handleGoToPrevious
     } = this.props;
+
     return (
       <div className="selectDishContainer">
         <div className="selectDishHeadings">
@@ -124,15 +125,17 @@ class SelectDish extends Component {
             );
           })}
         </form>
-        <div>
-          <button
-            className="addDish"
-            type="button"
-            onClick={() => this.handleAddDish()}
-          >
-            +
-          </button>
-        </div>
+        {dish.length < showValidDishes(restaurant).length && (
+          <div>
+            <button
+              className="addDish"
+              type="button"
+              onClick={() => this.handleAddDish()}
+            >
+              +
+            </button>
+          </div>
+        )}
         {showDishError && <p>{showDishError}</p>}
         {showServingsError && getTotalServings(servings) > 10 && (
           <p>Too many servings, maximum is ten</p>

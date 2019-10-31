@@ -27,4 +27,3 @@ const showValidDishes = restaurant => {
 };
 
 export default showValidDishes;
-;
