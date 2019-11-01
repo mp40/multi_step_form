@@ -27,3 +27,23 @@
   height: 35vh;
   position: relative;
 }
+
+.progressBar {
+  width: fit-content;
+  margin: 0 auto;
+  transform: translateY(1rem);
+  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+.progressBar > span {
+  background-color: whitesmoke;
+  color: rgb(66, 65, 65);
+  padding: 0 5px;
+  border: 1px solid rgb(66, 65, 65);
+  opacity: .7;
+
+}
+
+.progressBar > .active {
+opacity: 1;
+}

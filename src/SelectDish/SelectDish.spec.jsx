@@ -71,6 +71,16 @@ describe("selecting dishes", () => {
       .simulate("change", { target: { value: "Breakfast Dish 3a" } });
     expect(wrapper.text()).toContain("Error: Please select different dish");
   });
+  it("should remove the increment button once all dish options have been used", () => {
+    const dish = [
+      "Breakfast Dish 3a",
+      "Breakfast Dish 3b",
+      "Breakfast Dish 3c"
+    ];
+    const servings = ["1", "1", "1"];
+    wrapper.setProps({ dish, servings });
+    expect(wrapper.text()).not.toContain("+");
+  });
 });
 
 describe("incrementing servings", () => {
@@ -108,22 +118,12 @@ describe("incrementing servings", () => {
     wrapper
       .find(".servingQty")
       .at(1)
-      .simulate("change", { target: { value: 2 } });
+      .simulate("change", { target: { value: "2" } });
     expect(handleServingChangeSpy).toHaveBeenCalledWith(
-      { target: { value: 2 } },
+      { target: { value: "2" } },
       1
     );
     handleServingChangeSpy.mockClear();
-  });
-  it("should remove the increment button once all dish options have been used", () => {
-    const dish = [
-      "Breakfast Dish 3a",
-      "Breakfast Dish 3b",
-      "Breakfast Dish 3c"
-    ];
-    const servings = ["1", "1", "1"];
-    wrapper.setProps({ dish, servings });
-    expect(wrapper.text()).not.toContain("+");
   });
 });
 

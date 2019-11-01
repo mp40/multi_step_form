@@ -17,10 +17,16 @@ class App extends Component {
       servings: ["1"]
     };
 
+    this.assignClassName = this.assignClassName.bind(this);
     this.handleUpdateStateValue = this.handleUpdateStateValue.bind(this);
     this.handleGoToNext = this.handleGoToNext.bind(this);
     this.handleGoToPrevious = this.handleGoToPrevious.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  assignClassName(spanNumber) {
+    const { page } = this.state;
+    return spanNumber === page ? "active" : "default";
   }
 
   handleUpdateStateValue(name, value) {
@@ -61,6 +67,12 @@ class App extends Component {
       <div className="App">
         <header className="App-header">Multi Step Form</header>
         <div className="App-body">
+          <div className="progressBar">
+            <span className={this.assignClassName(1)}>Step 1</span>
+            <span className={this.assignClassName(2)}>Step 2</span>
+            <span className={this.assignClassName(3)}>Step 3</span>
+            <span className={this.assignClassName(4)}>Review</span>
+          </div>
           <div className="contents">
             {page === 1 && (
               <SelectMeal
@@ -101,6 +113,7 @@ class App extends Component {
                 handleSubmit={this.handleSubmit}
               />
             )}
+            {page === 5 && <p>Thank you</p>}
           </div>
         </div>
       </div>
