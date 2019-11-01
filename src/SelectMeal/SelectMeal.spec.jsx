@@ -82,12 +82,6 @@ describe("selecting number of people", () => {
   it("should start with a default of one", () => {
     expect(wrapper.find("input").props().value).toBe("1");
   });
-  it("should have a minimum value of one", () => {
-    expect(wrapper.find("input").props().min).toBe("1");
-  });
-  it("should have a maximum value of ten", () => {
-    expect(wrapper.find("input").props().max).toBe("10");
-  });
   it("should be possible to increment people", () => {
     selectValue(wrapper)("input", "2");
     expect(handleUpdateStateValue).toHaveBeenCalledWith("people", "2");

@@ -41,7 +41,7 @@ const SelectRestaurant = ({
         handleUpdateKey="restaurant"
         contents={dropDownContents}
       />
-      {error && <p>Please select valid restaurant</p>}
+      {error && <p className="errorMsg">Please select valid restaurant</p>}
       <ButtonBar
         onClickLeft={handleGoToPrevious}
         onClickRight={handleNextIsValid}

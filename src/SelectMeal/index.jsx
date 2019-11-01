@@ -50,7 +50,7 @@ const SelectMeal = ({
       <div className="buttonBar">
         <NextButton onClick={handleNextIsValid} />
       </div>
-      {error && <p>Please select valid meal</p>}
+      {error && <p className="errorMsg">Please select valid meal</p>}
     </div>
   );
 };

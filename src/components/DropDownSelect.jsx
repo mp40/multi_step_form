@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-onchange */
-
 import React from "react";
 import PropTypes from "prop-types";
+
+import FormLabel from "./FormLabel";
 
 import "./styles.css";
 
@@ -18,17 +17,13 @@ const DropDownSelect = ({
     <>
       <div>{heading}</div>
       <form>
-        <label>
-          <select
-            className={name}
-            value={value}
-            onChange={event =>
-              handleUpdate(handleUpdateKey, event.target.value)
-            }
-          >
-            {contents()}
-          </select>
-        </label>
+        <FormLabel
+          name={name}
+          value={value}
+          handleUpdate={handleUpdate}
+          handleUpdateKey={handleUpdateKey}
+          contents={contents}
+        />
       </form>
     </>
   );

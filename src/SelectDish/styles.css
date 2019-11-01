@@ -35,25 +35,3 @@
 .selectDishContainer > form > .dishSelectRow > div {
     margin: 0;
 }
-
-.addDish {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    background-color: rgb(171, 185, 199);
-    border: 1px solid whitesmoke;
-    opacity: .8;
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
-    font-weight: 600;
-    font-size: 1rem;
-    float: left;
-    margin-top: 2rem;
-}
-
-.addDish:hover {
-    border: 2px solid whitesmoke;
-    opacity: 1;
-    font-weight: 700;
-}

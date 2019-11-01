@@ -17,7 +17,8 @@ const InputQty = ({ value, handleUpdate, handleUpdateKey }) => {
 InputQty.propTypes = {
   value: PropTypes.string.isRequired,
   handleUpdate: PropTypes.func.isRequired,
-  handleUpdateKey: PropTypes.string.isRequired
+  handleUpdateKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired
 };
 
 export default InputQty;
