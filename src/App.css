@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #323742;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
   width: fit-content;
   margin: 0 auto;
   transform: translateY(1rem);
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 .progressBar > span {
@@ -40,16 +40,16 @@
   color: rgb(66, 65, 65);
   padding: 0 5px;
   border: 1px solid rgb(66, 65, 65);
-  opacity: .7;
-
+  opacity: 0.7;
 }
 
 .progressBar > .active {
-opacity: 1;
+  opacity: 1;
 }
 
 .errorMsg {
   color: orangered;
   font-weight: 700;
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
 }
