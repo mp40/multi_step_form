@@ -10,11 +10,11 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: whitesmoke;
 }
 
 .App-body {
-  color: white;
+  color: whitesmoke;
   background-color: #3e4a62;
   font-size: calc(10px + 1vmin);
   min-height: 90vh;
