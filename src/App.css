@@ -36,7 +36,7 @@
 }
 
 .progressBar > span {
-  background-color: rgba(245, 245, 245, 0.918);
+  background-color: whitesmoke;
   color: rgb(66, 65, 65);
   padding: 0 5px;
   border: 1px solid rgb(66, 65, 65);
